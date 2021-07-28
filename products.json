@@ -1,0 +1,29 @@
+[
+    {
+        "productId":1,
+        "manufacturer":"Jonh-Jenkins",
+        "sku":"p5z343cdA",
+        "upc":"93958100000",
+        "pricePerUnit":"497.45",
+        "quantityOnHand": 9703,
+        "productName":"sticky note"
+    },
+    {
+        "productId":2,
+        "manufacturer":"Hessel",
+        "sku":"i7v300kmx",
+        "upc":"740000000000000",
+        "pricePerUnit":"282.45",
+        "quantityOnHand": 9217,
+        "productName":"leg warmers"
+    },
+    {
+        "productId":3,
+        "manufacturer":"Swaniawski",
+        "sku":"q0L657ys7",
+        "upc":"11173000",
+        "pricePerUnit":"436.26",
+        "quantityOnHand": 5905,
+        "productName":"lamp shade"
+    }
+]
