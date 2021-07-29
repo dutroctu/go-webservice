@@ -1,14 +1,15 @@
 package product
 
 import (
+	"context"
 	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"log"
 	"os"
-	"sort"
 	"sync"
+	"time"
 
 	"github.com/dutroctu/go-webservice/database"
 )
@@ -48,7 +49,9 @@ func loadProductMap() (map[int]Product, error) {
 }
 
 func getProduct(productID int) (*Product, error) {
-	row := database.DbConn.QueryRow(`SELECT productId,
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+	row := database.DbConn.QueryRowContext(ctx, `SELECT productId,
 	manufacturer,
 	sku,
 	upc,
@@ -71,7 +74,9 @@ func getProduct(productID int) (*Product, error) {
 }
 
 func removeProduct(productID int) error {
-	_, err := database.DbConn.Query(`DELETE FROM products where productId = ?`, productID)
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+	_, err := database.DbConn.QueryContext(ctx, `DELETE FROM products where productId = ?`, productID)
 	if err != nil {
 		return err
 	}
@@ -79,7 +84,9 @@ func removeProduct(productID int) error {
 }
 
 func getProductList() ([]Product, error) {
-	result, err := database.DbConn.Query(`SELECT productId,
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+	result, err := database.DbConn.QueryContext(ctx, `SELECT productId,
 	manufacturer,
 	sku,
 	upc,
@@ -102,24 +109,10 @@ func getProductList() ([]Product, error) {
 	return products, nil
 }
 
-func getProductIds() []int {
-	productMap.RLock()
-	productIds := []int{}
-	for key := range productMap.m {
-		productIds = append(productIds, key)
-	}
-	productMap.RUnlock()
-	sort.Ints(productIds)
-	return productIds
-}
-
-func getNextProductID() int {
-	productIDs := getProductIds()
-	return productIDs[len(productIDs)-1] + 1
-}
-
 func insertProduct(product Product) (int, error) {
-	result, err := database.DbConn.Exec(`INSERT INTO products
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+	result, err := database.DbConn.ExecContext(ctx, `INSERT INTO products
 	(manufacturer,
 	sku,
 	upc,
@@ -143,7 +136,9 @@ func insertProduct(product Product) (int, error) {
 }
 
 func updateProduct(product Product) error {
-	_, err := database.DbConn.Exec(`UPDATE products SET
+	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
+	defer cancel()
+	_, err := database.DbConn.ExecContext(ctx, `UPDATE products SET
 	manufacturer=?,
 	sku=?,
 	upc=?,
@@ -162,26 +157,4 @@ func updateProduct(product Product) error {
 		return err
 	}
 	return nil
-}
-
-func addorUpdateProduct(product Product) (int, error) {
-	addOrUpdateID := -1
-	if product.ProductID > 0 {
-		oldProduct, err := getProduct(product.ProductID)
-		if err != nil {
-			return addOrUpdateID, err
-		}
-
-		if oldProduct == nil {
-			return 0, fmt.Errorf("product id [%d] doesn't exist", product.ProductID)
-		}
-		addOrUpdateID = product.ProductID
-	} else {
-		addOrUpdateID = getNextProductID()
-		product.ProductID = addOrUpdateID
-	}
-	productMap.Lock()
-	productMap.m[addOrUpdateID] = product
-	productMap.Unlock()
-	return addOrUpdateID, nil
 }
