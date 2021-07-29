@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -29,7 +30,10 @@ func productHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
-	product := getProduct(productID)
+	product, err := getProduct(productID)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+	}
 	if product == nil {
 		fmt.Println("hehe2 ", productID)
 		w.WriteHeader(http.StatusNotFound)
@@ -64,7 +68,12 @@ func productHandler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		addorUpdateProduct(updatedProduct)
+		err = updateProduct(updatedProduct)
+		if err != nil {
+			log.Print(err)
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
 
 		w.WriteHeader(http.StatusOK)
 		return
@@ -81,7 +90,11 @@ func productHandler(w http.ResponseWriter, r *http.Request) {
 func productsHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		productList := getProductList()
+		productList, err := getProductList()
+		if err != nil {
+			w.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 		productsJSON, err := json.Marshal(productList)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
@@ -106,7 +119,7 @@ func productsHandler(w http.ResponseWriter, r *http.Request) {
 			fmt.Println("is this")
 			return
 		}
-		_, err = addorUpdateProduct(newProduct)
+		_, err = insertProduct(newProduct)
 		if err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
 			return
