@@ -5,6 +5,7 @@ import (
 
 	"github.com/dutroctu/go-webservice/database"
 	"github.com/dutroctu/go-webservice/product"
+	"github.com/dutroctu/go-webservice/receipt"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -24,6 +25,7 @@ const apiBasePath = "/api"
 
 func main() {
 	database.SetupDatabase()
+	receipt.SetupRoutes(apiBasePath)
 	product.SetupRoutes(apiBasePath)
 
 	http.ListenAndServe(":5000", nil)

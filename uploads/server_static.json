@@ -1,0 +1,55 @@
+{
+    "address": "192.168.225.55",
+    "logging" : 
+    {
+        "level" : "info",
+        "console" : "true",
+        "file" : { 
+            "enable" : "false", 
+            "path" : "/tmp/vsomeip.log",
+            "sd_stub_path": "/tmp/sd_stub_path.log",
+            "max_file": "5",
+            "max_file_size": "32768"
+        }
+    },
+    "services": [
+        {
+            "id": "0x2000",
+            "instance": "0x2000",
+            "local_enable": "false",
+            "ext_enable": "true",
+            "udp_port":"12348",
+            "tcp_port": "12349",
+            "thread_pool_size": "2",
+            "client_config": [
+                {
+                    "addr": "192.168.225.1",
+                    "is_local":"false",
+                    "id": "0x1235",
+                    "udp_port":"56791",
+                    "tcp_port":"56790"
+                },
+                {
+                    "addr": "192.168.225.1",
+                    "is_local":"false",
+                    "id": "0x1236",
+                    "udp_port":"56781",
+                    "tcp_port":"56780"
+                }                         
+            ]
+        }       
+    ],
+    "service-discovery" :
+    {
+        "enable" : "true",
+        "multicast" : "224.224.224.245",
+        "port" : "30490",
+        "initial_delay_min" : "10",
+        "initial_delay_max" : "100",
+        "repetitions_base_delay" : "200",
+        "repetitions_max" : "3",
+        "ttl" : "3",
+        "cyclic_offer_delay" : "2000",
+        "request_response_delay" : "1500"
+    }
+}
