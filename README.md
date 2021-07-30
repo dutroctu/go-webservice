@@ -8,6 +8,10 @@ go-webservice
     - [Connection Pooling](#connection-pooling)
   - [Contexts](#contexts)
   - [Upload and Download Files](#upload-and-download-files)
+- [Websocket](#websocket)
+  - [Websocket Flow](#websocket-flow)
+  - [Uses for Websockets](#uses-for-websockets)
+- [Templates](#templates)
 
 # Middleware
 ![image](https://user-images.githubusercontent.com/87861565/127283061-4dee927e-ae8b-4133-8725-0faa9decbd5d.png)
@@ -44,4 +48,4 @@ go-webservice
 ## Uses for Websockets
 ![image](https://user-images.githubusercontent.com/87861565/127610229-9b350408-b285-4527-80c7-a9defb0d4b65.png)
 
-
+# Templates
