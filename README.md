@@ -12,6 +12,9 @@ go-webservice
   - [Websocket Flow](#websocket-flow)
   - [Uses for Websockets](#uses-for-websockets)
 - [Templates](#templates)
+- [How to run the project](#how-to-run-the-project)
+  - [How to run client](#how-to-run-client)
+  - [How to run service](#how-to-run-service)
 
 # Middleware
 ![image](https://user-images.githubusercontent.com/87861565/127283061-4dee927e-ae8b-4133-8725-0faa9decbd5d.png)
@@ -49,3 +52,16 @@ go-webservice
 ![image](https://user-images.githubusercontent.com/87861565/127610229-9b350408-b285-4527-80c7-a9defb0d4b65.png)
 
 # Templates
+
+# How to run the project
+There are 2 component: web service and angular client.
+## How to run client
+cd inventory-mgmt
+npm install 
+ng serve --open
+
+## How to run service
+- Setup MySql and import products.db
+- go run main.go
+
+
