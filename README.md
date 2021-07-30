@@ -34,3 +34,14 @@ go-webservice
 ## Upload and Download Files
 - mutipart/form-data
 - io.Copy
+
+# Websocket
+## Websocket Flow
+![image](https://user-images.githubusercontent.com/87861565/127610106-31c1e284-2849-41cc-8b4b-884859e046ed.png)
+
+![image](https://user-images.githubusercontent.com/87861565/127610147-b8e72d9c-fa74-430b-8c18-eab3ec4f1032.png)
+
+## Uses for Websockets
+![image](https://user-images.githubusercontent.com/87861565/127610229-9b350408-b285-4527-80c7-a9defb0d4b65.png)
+
+
